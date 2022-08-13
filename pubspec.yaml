@@ -40,6 +40,8 @@ dependencies:
   bubble: ^1.2.1
   http: ^0.13.5
   dialog_flowtter: ^0.3.3
+  curved_navigation_bar: ^1.0.3
+  flutter_speed_dial: ^6.0.0
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
