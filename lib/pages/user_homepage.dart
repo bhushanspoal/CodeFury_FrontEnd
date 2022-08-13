@@ -31,31 +31,25 @@ class _User_homepageState extends State<User_homepage> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Welcome ${loggedInUser.firstName} ${loggedInUser.secondName}"),),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              ActionChip(
-                  label: Text("Logout"),
-                  onPressed: () {
-                    logout(context);
-                  }),
-              FloatingActionButton(onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            User_chatbot()));
-              },
-              child: Icon(Icons.message, color: Colors.white),
-                backgroundColor: Colors.blueAccent,)
-            ],
-          ),
-        ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    User_chatbot()));
+      },
+
+        child: Icon(Icons.message, color: Colors.white),
+        backgroundColor: Colors.blueAccent,),
+      appBar: AppBar(title: Text("Welcome ${loggedInUser.firstName} ${loggedInUser.secondName}"),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                logout(context);
+                //Implement logout functionality
+              }),
+        ],
       ),
     );
   }

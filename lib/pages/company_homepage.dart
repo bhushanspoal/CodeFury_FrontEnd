@@ -30,56 +30,25 @@ class _Company_homepageState extends State<Company_homepage> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Welcome"),),
-      body: Center(
-        child:Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                height: 150,
-                child: Image.asset("assets/hustle.jpg", fit: BoxFit.contain),
-              ),
-              Text(
-                "Welcome Back",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text("${loggedInUser.companyName} ${loggedInUser.ownerName}",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w500,
-                  )),
-              Text("${loggedInUser.email}",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w500,
-                  )),
-              SizedBox(
-                height: 15,
-              ),
-              ActionChip(
-                  label: Text("Logout"),
-                  onPressed: () {
-                    logout(context);
-                  }),
-              FloatingActionButton(onPressed: (){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            User_chatbot()));
-              },
-                child: Icon(Icons.message, color: Colors.white),
-                backgroundColor: Colors.blueAccent,)
-            ],
-          ),
-        ),
-      ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    User_chatbot()));
+      },
+
+        child: Icon(Icons.message, color: Colors.white),
+        backgroundColor: Colors.blueAccent,),
+      appBar: AppBar(title: Text("Welcome ${loggedInUser.companyName} ${loggedInUser.ownerName}"),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                logout(context);
+                //Implement logout functionality
+              }),
+        ],),
     );
   }
   Future<void> logout(BuildContext context) async {
