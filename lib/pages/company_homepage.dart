@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codefury_start_up_app/pages/company_investors_page.dart';
 import 'package:codefury_start_up_app/pages/user_chatbot.dart';
 import 'package:codefury_start_up_app/pages/user_login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,6 +66,17 @@ class _Company_homepageState extends State<Company_homepage> {
               }
           ),
           SpeedDialChild(
+              child: Icon(Icons.attach_money_outlined),
+              label: 'Investors',
+              onLongPress: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Company_investors_page()));
+              }
+          ),
+          SpeedDialChild(
               child: Icon(Icons.person),
               label: 'Profile',
               onLongPress: (){
@@ -77,7 +89,7 @@ class _Company_homepageState extends State<Company_homepage> {
           )
         ],
       ),
-      appBar: AppBar(title: Text("Welcome ${loggedInUser.companyName} ${loggedInUser.ownerName}"),
+      appBar: AppBar(title: Text("Welcome ${loggedInUser.ownerName}"),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.logout),
