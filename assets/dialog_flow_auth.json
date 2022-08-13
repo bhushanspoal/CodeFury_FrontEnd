@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "codefurychatbot-rhej",
+  "private_key_id": "90995e3b944ba462c251be8695d28a4174ab8f88",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCkvANbIZR3S1es\nkoJOH6jpl/NI0U0GMzWrZZnpDCSvFPcrBpBs6Qh0qFfZSmH1xu6L/hV7Sma/+ivk\nW1PW9DCUnBJckQ8gtMyqqQ4E+nkPU5kHMWna4ju4yjP3mdXWxcaI6DrnGbdxpwTD\ncPYoEmeaH4HedFbgi46rEzMuZ1T4FEUTUTjduvGzLXc+B4IV9ig5xlGOoUwfAfXM\nMIVDI9Ck6ixkR9LYAcXisr8rrN9Cdi1S0SpzPF3dVzR9IhVYAq58NJSx5zcR01uL\niiuoZrlCZD5qhbrEKqtvejkfooYMv7KkknbSyfBd1LlvbsYF/d1h9XVOFhA1YAA4\njtHRnE5bAgMBAAECggEAGHtR6wbi3+u+3DMV0chwu5kicG2dNdEB0Ta97d1+d3/1\nJQbKYJ/X6tu4hTQXD4YAnlDPc82LLE1gnS+uwQufS1FP2pk67KW8o5bmMiU15+oz\nnCxiyphulGLbNZk+J2H9xGDxnWC8BimdJ/KEvVB8PHJ27s7OuSY5uKuXd/ZRXAth\n8To1iAXqPgNa/yeHBempGZffb+mECx5Mr+iUyU+Ae2AVKtAxfIURqNEPKMi2vnWB\nBNBUDbpIWtg63/O9dykRbmH/Y4ZK4lDFrpw+UjKlrT0VuDBIx59Mbpq5NQ9DJxKY\nVXGKfmYtoJP7tsaeIHtkzB71TGCtXIgu6Cmit6ZBYQKBgQDcWP1zStJ1D8dV1QU7\nf+VbpDiaqWr6nRmbv+7eWyhZJ5yZpBq6G2qtdEHBptELORzJKUeo6/IsNvPn5Was\npOEgujiUWaf6WzVZkeQQkO+Re+7ZN0QWErA8Tb0RISwNO7B52bhtURD41uE/jhNe\ns5PY6oSM3j9PuwfQQ/4xwe1+CwKBgQC/Y3ilbA6Z0NHpy/tORGQlb5UQgQtIkBnS\n5/6gWMKwfpf4QSb/41hMMCnvkO9uZAX8y5+CZzSWCzLvS9nKl/3e1TaT1Fxm5rEA\npqLmpJhkB9D4hm2yVBjSWUPDTf7SBEJTRvOoPS6JJf1polqMK3tyAYBO6040BJ7W\nL3rh7k+y8QKBgD7J8PcQhCYtZ9zyhbotuLrDcgnIax6c87YpHDUqfrXhDsPNOnx7\n4YspzK8VDQ6IqMY9yBi/m1O0GQ6klPxvQ2OjDQpg/ffeU7aBVx7NXibzzN0C3Zj4\nnFWixVSDQl1G/APM4bvs1MxD1w3YO3bJ70Bpm3nUvu/GWPSk22NsYnN/AoGAZdcP\nZq7WIiEM4eSKB/66b3Utk8em8mjDZQfP5RD2ICZsxUwd7YHTBU+HsROlZE9TJE5R\nxXkXcVPqOY1aCcTQ8RbxYL5aoOLWgusouaQR9wB1wRj/HCpFvwCC31UMaEKd7GRP\n2VEdBxuw+dnLZtTobiTAWr45MdLXlk9Tiw9dV3ECgYEAng4+M+SNwiVJueCz/XzM\nNlmYs4q8E406VNuqy/RFBNqnYgzz/U1wKhvQEzIivgzyzwr16cbnvYpZVYJifAHy\n14OUGHj6lX/uevPCHnkzivNQEd9A/As+V/HXpciUauVanL8HMvFGPk+kiNk4gBsr\n3DpAZUHz2aYOJJeN3RB/K7c=\n-----END PRIVATE KEY-----\n",
+  "client_email": "chatbotcodefury@codefurychatbot-rhej.iam.gserviceaccount.com",
+  "client_id": "106426703354315890177",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/chatbotcodefury%40codefurychatbot-rhej.iam.gserviceaccount.com"
+}

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codefury_start_up_app/pages/user_chatbot.dart';
 import 'package:codefury_start_up_app/pages/user_login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,15 @@ class _Company_homepageState extends State<Company_homepage> {
                   onPressed: () {
                     logout(context);
                   }),
+              FloatingActionButton(onPressed: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            User_chatbot()));
+              },
+                child: Icon(Icons.message, color: Colors.white),
+                backgroundColor: Colors.blueAccent,)
             ],
           ),
         ),
