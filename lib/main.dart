@@ -1,9 +1,13 @@
 import 'package:codefury_start_up_app/pages/user_homepage.dart';
 import 'package:codefury_start_up_app/pages/user_login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

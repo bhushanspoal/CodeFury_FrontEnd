@@ -1,5 +1,9 @@
 import 'package:codefury_start_up_app/pages/user_homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../models/user_registration_model.dart';
 
 class User_registration_page extends StatefulWidget {
   const User_registration_page({Key? key}) : super(key: key);
@@ -9,6 +13,8 @@ class User_registration_page extends StatefulWidget {
 }
 
 class _User_registration_pageState extends State<User_registration_page> {
+  final _auth = FirebaseAuth.instance;
+  String? errorMessage;
   final _formKey = GlobalKey<FormState>();
   // editing Controller
   final firstNameEditingController = new TextEditingController();
@@ -17,6 +23,7 @@ class _User_registration_pageState extends State<User_registration_page> {
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
   @override
+
   Widget build(BuildContext context) {
     final firstNameField = TextFormField(
         autofocus: false,
@@ -153,12 +160,8 @@ class _User_registration_pageState extends State<User_registration_page> {
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        User_homepage()));
-            //signUp(emailEditingController.text, passwordEditingController.text);
+
+            signUp(emailEditingController.text, passwordEditingController.text);
           },
           child: Text(
             "SignUp",
@@ -222,5 +225,66 @@ class _User_registration_pageState extends State<User_registration_page> {
         ),
       ),
     );
+  }
+  void signUp(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {postDetailsToFirestore()})
+            .catchError((e) {
+          Fluttertoast.showToast(msg: e!.message);
+        });
+      } on FirebaseAuthException catch (error) {
+        switch (error.code) {
+          case "invalid-email":
+            errorMessage = "Your email address appears to be malformed.";
+            break;
+          case "wrong-password":
+            errorMessage = "Your password is wrong.";
+            break;
+          case "user-not-found":
+            errorMessage = "User with this email doesn't exist.";
+            break;
+          case "user-disabled":
+            errorMessage = "User with this email has been disabled.";
+            break;
+          case "too-many-requests":
+            errorMessage = "Too many requests";
+            break;
+          case "operation-not-allowed":
+            errorMessage = "Signing in with Email and Password is not enabled.";
+            break;
+          default:
+            errorMessage = "An undefined Error happened.";
+        }
+        Fluttertoast.showToast(msg: errorMessage!);
+        print(error.code);
+      }
+    }
+  }
+  postDetailsToFirestore() async {
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? user = _auth.currentUser;
+
+    UserModel userModel = UserModel();
+
+    // writing all the values
+    userModel.email = user!.email;
+    userModel.uid = user.uid;
+    userModel.firstName = firstNameEditingController.text;
+    userModel.secondName = secondNameEditingController.text;
+
+    await firebaseFirestore
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => User_homepage()),
+            (route) => false);
   }
 }

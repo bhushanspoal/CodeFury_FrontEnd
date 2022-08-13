@@ -1,5 +1,9 @@
 import 'package:codefury_start_up_app/pages/company_homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../models/company_registration_model.dart';
 
 
 class Company_registration_page extends StatefulWidget {
@@ -11,6 +15,8 @@ class Company_registration_page extends StatefulWidget {
 
 class _Company_registration_pageState extends State<Company_registration_page> {
   final _formKey = GlobalKey<FormState>();
+  final _auth = FirebaseAuth.instance;
+  String? errorMessage;
   // editing Controller
   final companyNameEditingController = new TextEditingController();
   final ownerNameEditingController = new TextEditingController();
@@ -27,7 +33,7 @@ class _Company_registration_pageState extends State<Company_registration_page> {
         validator: (value) {
           RegExp regex = new RegExp(r'^.{3,}$');
           if (value!.isEmpty) {
-            return ("First Name cannot be Empty");
+            return ("Company Name cannot be Empty");
           }
           if (!regex.hasMatch(value)) {
             return ("Enter Valid name(Min. 3 Character)");
@@ -41,7 +47,7 @@ class _Company_registration_pageState extends State<Company_registration_page> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.work),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "First Name",
+          hintText: "Company Name",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -52,7 +58,7 @@ class _Company_registration_pageState extends State<Company_registration_page> {
         keyboardType: TextInputType.name,
         validator: (value) {
           if (value!.isEmpty) {
-            return ("Second Name cannot be Empty");
+            return ("Owner Name cannot be Empty");
           }
           return null;
         },
@@ -63,7 +69,7 @@ class _Company_registration_pageState extends State<Company_registration_page> {
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.account_circle),
           contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Second Name",
+          hintText: "Owner Name",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -155,12 +161,7 @@ class _Company_registration_pageState extends State<Company_registration_page> {
           padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        Company_homepage()));
-            //signUp(emailEditingController.text, passwordEditingController.text);
+            signUp(emailEditingController.text, passwordEditingController.text);
           },
           child: Text(
             "SignUp",
@@ -223,5 +224,67 @@ class _Company_registration_pageState extends State<Company_registration_page> {
         ),
       ),
     );
+  }
+
+  void signUp(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((value) => {postDetailsToFirestore()})
+            .catchError((e) {
+          Fluttertoast.showToast(msg: e!.message);
+        });
+      } on FirebaseAuthException catch (error) {
+        switch (error.code) {
+          case "invalid-email":
+            errorMessage = "Your email address appears to be malformed.";
+            break;
+          case "wrong-password":
+            errorMessage = "Your password is wrong.";
+            break;
+          case "user-not-found":
+            errorMessage = "User with this email doesn't exist.";
+            break;
+          case "user-disabled":
+            errorMessage = "User with this email has been disabled.";
+            break;
+          case "too-many-requests":
+            errorMessage = "Too many requests";
+            break;
+          case "operation-not-allowed":
+            errorMessage = "Signing in with Email and Password is not enabled.";
+            break;
+          default:
+            errorMessage = "An undefined Error happened.";
+        }
+        Fluttertoast.showToast(msg: errorMessage!);
+        print(error.code);
+      }
+    }
+  }
+  postDetailsToFirestore() async {
+
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    User? company = _auth.currentUser;
+
+    CompanyModel companyModel = CompanyModel();
+
+    // writing all the values
+    companyModel.email = company!.email;
+    companyModel.cid = company.uid;
+    companyModel.companyName = companyNameEditingController.text;
+    companyModel.ownerName = ownerNameEditingController.text;
+
+    await firebaseFirestore
+        .collection("companies")
+        .doc(company.uid)
+        .set(companyModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => Company_homepage()),
+            (route) => false);
   }
 }

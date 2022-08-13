@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:codefury_start_up_app/pages/user_login_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../models/company_registration_model.dart';
 
 class Company_homepage extends StatefulWidget {
   const Company_homepage({Key? key}) : super(key: key);
@@ -8,7 +13,20 @@ class Company_homepage extends StatefulWidget {
 }
 
 class _Company_homepageState extends State<Company_homepage> {
+  User? user = FirebaseAuth.instance.currentUser;
+  CompanyModel loggedInUser = CompanyModel();
   @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("companies")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = CompanyModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Welcome"),),
@@ -30,28 +48,33 @@ class _Company_homepageState extends State<Company_homepage> {
               SizedBox(
                 height: 10,
               ),
-              // Text("${loggedInUser.firstName} ${loggedInUser.secondName}",
-              //     style: TextStyle(
-              //       color: Colors.black54,
-              //       fontWeight: FontWeight.w500,
-              //     )),
-              // Text("${loggedInUser.email}",
-              //     style: TextStyle(
-              //       color: Colors.black54,
-              //       fontWeight: FontWeight.w500,
-              //     )),
+              Text("${loggedInUser.companyName} ${loggedInUser.ownerName}",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w500,
+                  )),
+              Text("${loggedInUser.email}",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w500,
+                  )),
               SizedBox(
                 height: 15,
               ),
               ActionChip(
                   label: Text("Logout"),
                   onPressed: () {
-                    //logout(context);
+                    logout(context);
                   }),
             ],
           ),
         ),
       ),
     );
+  }
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => User_login_page()));
   }
 }
